@@ -2,13 +2,18 @@
 
 cfDNA = read.table("cfDNA_conc.txt",head=T)
 
+# remove patient 4
+
+cfDNA.reg = cfDNA[-7,]
+plot(cfDNA.reg$cfDNA,cfDNA.reg$PSA)
+
 library(ggplot2)
 
 b1=ggplot(cfDNA.reg, aes(factor(stage), cfDNA)) + 
   geom_boxplot(aes(fill = factor(stage))) + theme_bw() +#+ geom_jitter()
   ggtitle("cfDNA concentration between stages")+  
   guides(fill=guide_legend(title="Time Point")) + ylab("blood cfDNA concentration")+
-  xlab("time points")
+  xlab("time points") +  scale_y_continuous(limits=c(0,2))
 b1
 
 ggsave(b1,filename = "cfDNA_conc_boxplot.pdf",width=5,height=4)
@@ -43,11 +48,6 @@ liine2
 ggsave(liine2,filename = "PSA_conc_lineplot.pdf",width=5,height=4)
 
 
-
-# remove patient 4
-
-cfDNA.reg = cfDNA[-7,]
-plot(cfDNA.reg$cfDNA,cfDNA.reg$PSA)
 
 p <- ggplot(cfDNA.reg, aes(PSA, cfDNA))+ geom_point() + theme_bw()
 p 
